@@ -63,6 +63,16 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
             """
         XCTAssertNoThrow(try inputParser.parse(input: inputString))
     }
+    
+    func testNoThrowOnValidInput4() {
+        let inputParser: InputParser = DefaultInputParser()
+        let inputString = """
+            a,z,e,m,w,x,c,v,b,n
+            wave
+            red
+            """
+        XCTAssertNoThrow(try inputParser.parse(input: inputString))
+    }
 
     static var allTests = [
         ("testEmptyInputThrowsError", testEmptyInputThrowsError),
@@ -71,5 +81,6 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
         ("testNoThrowOnValidInput1", testNoThrowOnValidInput1),
         ("testNoThrowOnValidInput2", testNoThrowOnValidInput2),
         ("testNoThrowOnValidInput3", testNoThrowOnValidInput3),
+        ("testNoThrowOnValidInput4", testNoThrowOnValidInput4),
     ]
 }
