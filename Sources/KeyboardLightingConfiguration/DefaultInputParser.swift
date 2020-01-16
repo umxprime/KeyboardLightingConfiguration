@@ -31,5 +31,32 @@ extension DefaultInputParser: InputParser {
         if matches.count == 0 {
             throw InputParsingError(kind: .NoValidEntryFound)
         }
+        try matches.forEach { (result) in
+            var entry = [String:String]()
+            for component in ["key", "type", "color"] {
+                let componentRange = result.range(withName: component)
+                if componentRange.location == NSNotFound {
+                    continue
+                }
+                let inputStartIndex = input.index(input.startIndex, offsetBy: componentRange.lowerBound)
+                let inputEndIndex = input.index(input.startIndex, offsetBy: componentRange.upperBound)
+                let substring = input[inputStartIndex..<inputEndIndex]
+                entry[component] = String(substring)
+            }
+            guard entry["key"] != nil else {
+                throw InputParsingError(kind: .Undefined)
+            }
+            guard let type = entry["type"] else {
+                throw InputParsingError(kind: .Undefined)
+            }
+            guard let color = entry["color"] else {
+                throw InputParsingError(kind: .Undefined)
+            }
+            if type == "static" {
+                if color.split(separator: ",").count > 1 {
+                    throw InputParsingError(kind: .StaticEffectInvalidColorCount)
+                }
+            }
+        }
     }
 }
