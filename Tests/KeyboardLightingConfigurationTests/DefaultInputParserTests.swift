@@ -1,7 +1,7 @@
 import XCTest
 @testable import KeyboardLightingConfiguration
 
-final class KeyboardLightingConfigurationTests: XCTestCase {
+final class DefaultInputParserTests: XCTestCase {
     let inputParser: InputParser = DefaultFactory().createInputParser()
     
     func testEmptyInputThrowsError() {
