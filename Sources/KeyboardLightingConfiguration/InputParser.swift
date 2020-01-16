@@ -8,7 +8,12 @@
 import Foundation
 
 public struct InputParsingResult {
-    typealias Entry = [String:String]
+    enum Field : String, CaseIterable {
+        case Keys
+        case Effect
+        case Colors
+    }
+    typealias Entry = [Field:String]
     typealias Entries = [Entry]
     let entries:Entries
 }

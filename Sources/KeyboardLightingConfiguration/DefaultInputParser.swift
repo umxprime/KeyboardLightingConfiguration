@@ -33,11 +33,11 @@ extension DefaultInputParser: InputParser {
         let colors = Color.allCases.map { return $0.rawValue.lowercased() }.joined(separator: "|")
         let pattern = #"""
         (?xm)
-        ^(?<key>
+        ^(?<\#(InputParsingResult.Field.Keys.rawValue)>
             (?:[a-z](?-x:$|, *))+)\n
-        (?<type>
+        (?<\#(InputParsingResult.Field.Effect.rawValue)>
             (?:\#(effects)))\n
-        (?<color>
+        (?<\#(InputParsingResult.Field.Colors.rawValue)>
             (?:(?:\#(colors))(?-x:$|, +))+$)
         """#
         let regex = try NSRegularExpression(pattern: pattern, options: [])
@@ -48,8 +48,8 @@ extension DefaultInputParser: InputParser {
         }
         try matches.forEach { (result) in
             var entry = InputParsingResult.Entry()
-            for component in ["key", "type", "color"] {
-                let componentRange = result.range(withName: component)
+            for component in InputParsingResult.Field.allCases {
+                let componentRange = result.range(withName: component.rawValue)
                 if componentRange.location == NSNotFound {
                     continue
                 }
@@ -58,16 +58,16 @@ extension DefaultInputParser: InputParser {
                 let substring = input[inputStartIndex..<inputEndIndex]
                 entry[component] = String(substring)
             }
-            guard entry["key"] != nil else {
+            guard entry[InputParsingResult.Field.Keys] != nil else {
                 throw InputParsingError(kind: .Undefined, message: nil)
             }
-            guard let rawEffectType = entry["type"] else {
+            guard let rawEffectType = entry[InputParsingResult.Field.Effect] else {
                 throw InputParsingError(kind: .Undefined, message: nil)
             }
             guard let effectType = Effect(rawValue: rawEffectType.prefix(1).capitalized + rawEffectType.dropFirst()) else {
                 throw InputParsingError(kind: .Undefined, message: "INVALID: Invalid effect \(rawEffectType)")
             }
-            guard let color = entry["color"] else {
+            guard let color = entry[InputParsingResult.Field.Colors] else {
                 throw InputParsingError(kind: .Undefined, message: nil)
             }
             
