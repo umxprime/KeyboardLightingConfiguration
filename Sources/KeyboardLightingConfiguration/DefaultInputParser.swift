@@ -21,7 +21,7 @@ extension DefaultInputParser: InputParser {
         ^(?<key>
             (?:[a-z](?-x:$|, *))+)\n
         (?<type>
-            (?:static|wave))\n
+            (?:static|wave|disco))\n
         (?<color>
             (?:(?:red|green|blue|yellow)(?-x:$|, +))+)
         """#
