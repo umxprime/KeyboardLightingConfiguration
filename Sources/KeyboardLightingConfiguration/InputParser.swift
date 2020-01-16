@@ -16,6 +16,7 @@ public struct InputParsingResult {
     typealias Entry = [Field:String]
     typealias Entries = [Entry]
     let entries:Entries
+    let keyboardConfiguration:KeyboardConfiguration
 }
 
 public struct InputParsingError : Error {

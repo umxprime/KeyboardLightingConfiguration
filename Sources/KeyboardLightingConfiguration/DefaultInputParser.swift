@@ -91,6 +91,6 @@ extension DefaultInputParser: InputParser {
             }
             entries.append(entry)
         }
-        return InputParsingResult(entries: entries)
+        return InputParsingResult(entries: entries, keyboardConfiguration: factory.createKeyboardConfiguration())
     }
 }
