@@ -17,13 +17,14 @@ extension DefaultKeyboardConfiguration: KeyboardConfiguration {
             return
         }
         keyConfigurations.removeAll()
+        let whitespacePattern = "^\\s+|\\s+|\\s+$"
         entries.forEach { (entry) in
-            let colorsList = entry.colors.split(separator: ",")
+            let colorsList = entry.colors.replacingOccurrences(of: whitespacePattern, with: "", options: .regularExpression).split(separator: ",")
             let colors = colorsList.map { (color) -> KeyConfiguration.Color in
                 let rawValue = color.prefix(1).capitalized + color.dropFirst()
                 return KeyConfiguration.Color(rawValue: rawValue) ?? .Unknown
             }
-            entry.keys.split(separator: ",").forEach { (key) in
+            entry.keys.replacingOccurrences(of: whitespacePattern, with: "", options: .regularExpression).split(separator: ",").forEach { (key) in
                 let rawValue = entry.effect.prefix(1).capitalized + entry.effect.dropFirst()
                 guard let effect = KeyConfiguration.Effect(rawValue: rawValue) else {
                     return
