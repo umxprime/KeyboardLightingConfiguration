@@ -7,6 +7,12 @@
 
 import Foundation
 
+public struct InputParsingResult {
+    typealias Entry = [String:String]
+    typealias Entries = [Entry]
+    let entries:Entries
+}
+
 public struct InputParsingError : Error {
     enum ErrorKind {
         case EmptyInput
@@ -20,5 +26,6 @@ public struct InputParsingError : Error {
 }
 
 public protocol InputParser {
-    func parse(input:String) throws
+    @discardableResult
+    func parse(input:String) throws -> InputParsingResult
 }

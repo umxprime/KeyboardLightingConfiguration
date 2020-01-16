@@ -128,6 +128,30 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
         }
     }
     
+    func testFourValidEntries() {
+        let inputString = """
+        a, b, c, d
+        static
+        green
+        a, t, v
+        static
+        red
+        d, e, f
+        wave
+        red, blue
+        t, u, v
+        disco
+        red, green, orange
+        """
+        let inputParser: InputParser = DefaultInputParser()
+        do {
+            let result = try inputParser.parse(input: inputString)
+            XCTAssertEqual(result.entries.count, 4)
+        } catch {
+            XCTFail()
+        }
+    }
+    
     static var allTests = [
         ("testEmptyInputThrowsError", testEmptyInputThrowsError),
         ("testEmptyInputThrowsEmptyInputError", testEmptyInputThrowsEmptyInputError),
@@ -140,5 +164,6 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
         ("testSingleDiscoEffectWithGreenYellowBlueColors", testSingleDiscoEffectWithGreenYellowBlueColors),
         ("testThrowsInvalidStaticEffectColorCountError", testThrowsInvalidStaticEffectColorCountError),
         ("testThrowsInvalidDiscoEffectColorCountError", testThrowsInvalidDiscoEffectColorCountError),
+        ("testFourValidEntries", testFourValidEntries),
     ]
 }

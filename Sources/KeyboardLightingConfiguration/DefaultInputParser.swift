@@ -19,11 +19,13 @@ public class DefaultInputParser {
         case Green
         case Blue
         case Yellow
+        case Orange
     }
 }
 
 extension DefaultInputParser: InputParser {
-    public func parse(input: String) throws {
+    public func parse(input: String) throws -> InputParsingResult {
+        var entries = InputParsingResult.Entries()
         if input.isEmpty {
             throw InputParsingError(kind: .EmptyInput, message: nil)
         }
@@ -36,7 +38,7 @@ extension DefaultInputParser: InputParser {
         (?<type>
             (?:\#(effects)))\n
         (?<color>
-            (?:(?:\#(colors))(?-x:$|, +))+)
+            (?:(?:\#(colors))(?-x:$|, +))+$)
         """#
         let regex = try NSRegularExpression(pattern: pattern, options: [])
         let range = NSRange(input.startIndex..<input.endIndex, in: input)
@@ -45,7 +47,7 @@ extension DefaultInputParser: InputParser {
             throw InputParsingError(kind: .NoValidEntryFound, message: nil)
         }
         try matches.forEach { (result) in
-            var entry = [String:String]()
+            var entry = InputParsingResult.Entry()
             for component in ["key", "type", "color"] {
                 let componentRange = result.range(withName: component)
                 if componentRange.location == NSNotFound {
@@ -81,6 +83,8 @@ extension DefaultInputParser: InputParser {
             case .Wave:
                 break
             }
+            entries.append(entry)
         }
+        return InputParsingResult(entries: entries)
     }
 }
