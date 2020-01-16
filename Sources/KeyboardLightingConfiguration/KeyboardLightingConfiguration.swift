@@ -18,5 +18,5 @@ public struct KeyConfiguration {
 
 public protocol KeyboardConfiguration {
     var keyConfigurations: [String: KeyConfiguration] {get}
-    func from(inputParsingResult:InputParsingResult)
+    func from(entries: InputParsingResult.Entries)
 }

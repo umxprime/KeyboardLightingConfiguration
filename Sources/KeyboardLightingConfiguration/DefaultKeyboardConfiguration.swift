@@ -12,7 +12,13 @@ public class DefaultKeyboardConfiguration {
 }
 
 extension DefaultKeyboardConfiguration: KeyboardConfiguration {
-    public func from(inputParsingResult: InputParsingResult) {
-        
+    public func from(entries: InputParsingResult.Entries) {
+        if entries.count == 0 {
+            return
+        }
+        keyConfigurations.removeAll()
+        entries.forEach { (entry) in
+            
+        }
     }
 }
