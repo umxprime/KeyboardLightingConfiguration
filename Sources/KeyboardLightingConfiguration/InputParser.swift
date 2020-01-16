@@ -11,11 +11,12 @@ public struct InputParsingError : Error {
     enum ErrorKind {
         case EmptyInput
         case NoValidEntryFound
-        case StaticEffectInvalidColorCount
+        case InvalidColorCount
         case Undefined
     }
     
     let kind:ErrorKind
+    let message:String?
 }
 
 public protocol InputParser {

@@ -105,7 +105,24 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
             try inputParser.parse(input: inputString)
             XCTFail()
         } catch let error as InputParsingError {
-            XCTAssertEqual(error.kind, InputParsingError.ErrorKind.StaticEffectInvalidColorCount)
+            XCTAssertEqual(error.kind, InputParsingError.ErrorKind.InvalidColorCount)
+        } catch {
+            XCTFail()
+        }
+    }
+    
+    func testThrowsInvalidDiscoEffectColorCountError() {
+        let inputString = """
+        a
+        disco
+        red, green
+        """
+        let inputParser: InputParser = DefaultInputParser()
+        do {
+            try inputParser.parse(input: inputString)
+            XCTFail()
+        } catch let error as InputParsingError {
+            XCTAssertEqual(error.kind, InputParsingError.ErrorKind.InvalidColorCount)
         } catch {
             XCTFail()
         }
@@ -121,5 +138,7 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
         ("testSingleWaveEffectWithRedColor", testSingleWaveEffectWithRedColor),
         ("testSingleWaveEffectWithBlueRedGreenYellowColors", testSingleWaveEffectWithBlueRedGreenYellowColors),
         ("testSingleDiscoEffectWithGreenYellowBlueColors", testSingleDiscoEffectWithGreenYellowBlueColors),
+        ("testThrowsInvalidStaticEffectColorCountError", testThrowsInvalidStaticEffectColorCountError),
+        ("testThrowsInvalidDiscoEffectColorCountError", testThrowsInvalidDiscoEffectColorCountError),
     ]
 }
