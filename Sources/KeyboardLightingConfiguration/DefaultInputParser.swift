@@ -27,12 +27,6 @@ public class DefaultInputParser {
         case Yellow
         case Orange
     }
-    
-    let factory: Factory
-    
-    public init(factory: Factory) {
-        self.factory = factory
-    }
 }
 
 extension DefaultInputParser: InputParser {
@@ -98,8 +92,6 @@ extension DefaultInputParser: InputParser {
             let entry = InputParsingResult.Entry(keys: rawKeys, effect: rawEffect, colors: rawColors)
             entries.append(entry)
         }
-        let keyboardConfiguration = factory.createKeyboardConfiguration()
-        keyboardConfiguration.from(entries: entries)
-        return InputParsingResult(entries: entries, keyboardConfiguration: factory.createKeyboardConfiguration())
+        return InputParsingResult(entries: entries)
     }
 }

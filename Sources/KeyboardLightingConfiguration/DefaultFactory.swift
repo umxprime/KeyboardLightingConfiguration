@@ -13,7 +13,7 @@ class DefaultFactory {
 
 extension DefaultFactory: Factory {
     func createInputParser() -> InputParser {
-        return DefaultInputParser(factory: self)
+        return DefaultInputParser()
     }
     
     func createKeyboardConfiguration() -> KeyboardConfiguration {
