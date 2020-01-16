@@ -34,7 +34,7 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
         }
     }
     
-    func testNoThrowOnValidInput1() {
+    func testSingleStaticEffectWithRedColorForOneKeyInput() {
         let inputParser: InputParser = DefaultInputParser()
         let inputString = """
             a
@@ -44,7 +44,7 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
         XCTAssertNoThrow(try inputParser.parse(input: inputString))
     }
     
-    func testNoThrowOnValidInput2() {
+    func testSingleStaticEffectWithRedColorForTwoKeys() {
         let inputParser: InputParser = DefaultInputParser()
         let inputString = """
             a, b
@@ -54,7 +54,7 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
         XCTAssertNoThrow(try inputParser.parse(input: inputString))
     }
     
-    func testNoThrowOnValidInput3() {
+    func testSingleStaticEffectWithRedColorForAllKeys() {
         let inputParser: InputParser = DefaultInputParser()
         let inputString = """
             a,z,e,r,t,y,u,u,i,o,p,q,s,d,f,g,h,j,k,l,m,w,x,c,v,b,n
@@ -64,7 +64,7 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
         XCTAssertNoThrow(try inputParser.parse(input: inputString))
     }
     
-    func testNoThrowOnValidInput4() {
+    func testSingleWaveEffectWithRedColor() {
         let inputParser: InputParser = DefaultInputParser()
         let inputString = """
             a,z,e,m,w,x,c,v,b,n
@@ -78,9 +78,9 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
         ("testEmptyInputThrowsError", testEmptyInputThrowsError),
         ("testEmptyInputThrowsEmptyInputError", testEmptyInputThrowsEmptyInputError),
         ("testThrowsNoValidEntryFoundError", testThrowsNoValidEntryFoundError),
-        ("testNoThrowOnValidInput1", testNoThrowOnValidInput1),
-        ("testNoThrowOnValidInput2", testNoThrowOnValidInput2),
-        ("testNoThrowOnValidInput3", testNoThrowOnValidInput3),
-        ("testNoThrowOnValidInput4", testNoThrowOnValidInput4),
+        ("testSingleStaticEffectWithRedColorForOneKeyInput", testSingleStaticEffectWithRedColorForOneKeyInput),
+        ("testSingleStaticEffectWithRedColorForTwoKeys", testSingleStaticEffectWithRedColorForTwoKeys),
+        ("testSingleStaticEffectWithRedColorForAllKeys", testSingleStaticEffectWithRedColorForAllKeys),
+        ("testSingleWaveEffectWithRedColor", testSingleWaveEffectWithRedColor),
     ]
 }
