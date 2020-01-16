@@ -94,6 +94,23 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
         XCTAssertNoThrow(try inputParser.parse(input: inputString))
     }
 
+    func testThrowsInvalidStaticEffectColorCountError() {
+        let inputString = """
+        a
+        static
+        red, green
+        """
+        let inputParser: InputParser = DefaultInputParser()
+        do {
+            try inputParser.parse(input: inputString)
+            XCTFail()
+        } catch let error as InputParsingError {
+            XCTAssertEqual(error.kind, InputParsingError.ErrorKind.StaticEffectInvalidColorCount)
+        } catch {
+            XCTFail()
+        }
+    }
+    
     static var allTests = [
         ("testEmptyInputThrowsError", testEmptyInputThrowsError),
         ("testEmptyInputThrowsEmptyInputError", testEmptyInputThrowsEmptyInputError),

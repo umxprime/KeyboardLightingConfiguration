@@ -11,6 +11,7 @@ public struct InputParsingError : Error {
     enum ErrorKind {
         case EmptyInput
         case NoValidEntryFound
+        case StaticEffectInvalidColorCount
         case Undefined
     }
     
