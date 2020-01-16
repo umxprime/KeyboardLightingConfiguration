@@ -8,7 +8,11 @@
 import Foundation
 
 public class DefaultInputParser {
-    
+    enum Effect : String, CaseIterable {
+        case Static
+        case Wave
+        case Disco
+    }
 }
 
 extension DefaultInputParser: InputParser {
@@ -16,12 +20,13 @@ extension DefaultInputParser: InputParser {
         if input.isEmpty {
             throw InputParsingError(kind: .EmptyInput, message: nil)
         }
+        let effects = Effect.allCases.map { return $0.rawValue.lowercased() }.joined(separator: "|")
         let pattern = #"""
         (?xm)
         ^(?<key>
             (?:[a-z](?-x:$|, *))+)\n
         (?<type>
-            (?:static|wave|disco))\n
+            (?:\#(effects)))\n
         (?<color>
             (?:(?:red|green|blue|yellow)(?-x:$|, +))+)
         """#
@@ -46,16 +51,27 @@ extension DefaultInputParser: InputParser {
             guard entry["key"] != nil else {
                 throw InputParsingError(kind: .Undefined, message: nil)
             }
-            guard let type = entry["type"] else {
+            guard let rawEffectType = entry["type"] else {
                 throw InputParsingError(kind: .Undefined, message: nil)
+            }
+            guard let effectType = Effect(rawValue: rawEffectType.prefix(1).capitalized + rawEffectType.dropFirst()) else {
+                throw InputParsingError(kind: .Undefined, message: "INVALID: Invalid effect \(rawEffectType)")
             }
             guard let color = entry["color"] else {
                 throw InputParsingError(kind: .Undefined, message: nil)
             }
-            if type == "static" {
+            
+            switch effectType {
+            case .Static:
                 if color.split(separator: ",").count > 1 {
                     throw InputParsingError(kind: .InvalidColorCount, message: "INVALID: Static effects are single color only")
                 }
+            case .Disco:
+                if color.split(separator: ",").count != 3 {
+                    throw InputParsingError(kind: .InvalidColorCount, message: "INVALID: Disco effects are three color only")
+                }
+            case .Wave:
+                break
             }
         }
     }
