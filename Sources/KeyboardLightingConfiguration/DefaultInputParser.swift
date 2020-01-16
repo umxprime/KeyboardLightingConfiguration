@@ -19,7 +19,7 @@ extension DefaultInputParser: InputParser {
         let pattern = #"""
         (?xm)
         ^(?<key>
-            (?:(?:a|b)(?-x:$|, ))+)\n
+            (?:[a-z](?-x:$|, *))+)\n
         (?<type>
             static)\n
         (?<color>
