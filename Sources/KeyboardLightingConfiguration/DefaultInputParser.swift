@@ -23,7 +23,7 @@ extension DefaultInputParser: InputParser {
         (?<type>
             (?:static|wave))\n
         (?<color>
-            red)
+            (?:(?:red|green|blue|yellow)(?-x:$|, +))+)
         """#
         let regex = try NSRegularExpression(pattern: pattern, options: [])
         let range = NSRange(input.startIndex..<input.endIndex, in: input)
