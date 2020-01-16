@@ -2,16 +2,16 @@ import XCTest
 @testable import KeyboardLightingConfiguration
 
 final class KeyboardLightingConfigurationTests: XCTestCase {
+    let inputParser: InputParser = DefaultFactory().createInputParser()
+    
     func testEmptyInputThrowsError() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let inputParser: InputParser = DefaultInputParser()
         XCTAssertThrowsError(try inputParser.parse(input: ""))
     }
     
     func testEmptyInputThrowsEmptyInputError() {
-        let inputParser: InputParser = DefaultInputParser()
         do {
             try inputParser.parse(input: "")
             XCTFail()
@@ -23,7 +23,6 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
     }
     
     func testThrowsNoValidEntryFoundError() {
-        let inputParser: InputParser = DefaultInputParser()
         do {
             try inputParser.parse(input: "a")
             XCTFail()
@@ -35,7 +34,6 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
     }
     
     func testSingleStaticEffectWithRedColorForOneKeyInput() {
-        let inputParser: InputParser = DefaultInputParser()
         let inputString = """
             a
             static
@@ -45,7 +43,6 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
     }
     
     func testSingleStaticEffectWithRedColorForTwoKeys() {
-        let inputParser: InputParser = DefaultInputParser()
         let inputString = """
             a, b
             static
@@ -55,7 +52,6 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
     }
     
     func testSingleStaticEffectWithRedColorForAllKeys() {
-        let inputParser: InputParser = DefaultInputParser()
         let inputString = """
             a,z,e,r,t,y,u,u,i,o,p,q,s,d,f,g,h,j,k,l,m,w,x,c,v,b,n
             static
@@ -65,7 +61,6 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
     }
     
     func testSingleWaveEffectWithRedColor() {
-        let inputParser: InputParser = DefaultInputParser()
         let inputString = """
             a,z,e,m,w,x,c,v,b,n
             wave
@@ -75,7 +70,6 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
     }
     
     func testSingleWaveEffectWithBlueRedGreenYellowColors() {
-        let inputParser: InputParser = DefaultInputParser()
         let inputString = """
             a,z,e,m,w,x,c,v,b,n
             wave
@@ -85,7 +79,6 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
     }
     
     func testSingleDiscoEffectWithGreenYellowBlueColors() {
-        let inputParser: InputParser = DefaultInputParser()
         let inputString = """
             a,z,e,m,w,x,c,v,b,n
             disco
@@ -100,7 +93,6 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
         static
         red, green
         """
-        let inputParser: InputParser = DefaultInputParser()
         do {
             try inputParser.parse(input: inputString)
             XCTFail()
@@ -117,7 +109,6 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
         disco
         red, green
         """
-        let inputParser: InputParser = DefaultInputParser()
         do {
             try inputParser.parse(input: inputString)
             XCTFail()
@@ -143,7 +134,6 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
         disco
         red, green, orange
         """
-        let inputParser: InputParser = DefaultInputParser()
         do {
             let result = try inputParser.parse(input: inputString)
             XCTAssertEqual(result.entries.count, 4)
