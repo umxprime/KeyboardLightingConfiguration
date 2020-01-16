@@ -74,7 +74,7 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
         XCTAssertNoThrow(try inputParser.parse(input: inputString))
     }
     
-    func testSingleWaveEffectWithBlueRedGreenColors() {
+    func testSingleWaveEffectWithBlueRedGreenYellowColors() {
         let inputParser: InputParser = DefaultInputParser()
         let inputString = """
             a,z,e,m,w,x,c,v,b,n
@@ -92,6 +92,6 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
         ("testSingleStaticEffectWithRedColorForTwoKeys", testSingleStaticEffectWithRedColorForTwoKeys),
         ("testSingleStaticEffectWithRedColorForAllKeys", testSingleStaticEffectWithRedColorForAllKeys),
         ("testSingleWaveEffectWithRedColor", testSingleWaveEffectWithRedColor),
-        ("testSingleWaveEffectWithBlueRedGreenColors", testSingleWaveEffectWithBlueRedGreenColors),
+        ("testSingleWaveEffectWithBlueRedGreenYellowColors", testSingleWaveEffectWithBlueRedGreenYellowColors),
     ]
 }
