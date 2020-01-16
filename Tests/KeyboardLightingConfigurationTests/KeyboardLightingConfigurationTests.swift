@@ -73,6 +73,16 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
             """
         XCTAssertNoThrow(try inputParser.parse(input: inputString))
     }
+    
+    func testSingleWaveEffectWithBlueRedGreenColors() {
+        let inputParser: InputParser = DefaultInputParser()
+        let inputString = """
+            a,z,e,m,w,x,c,v,b,n
+            wave
+            blue, red, green, yellow
+            """
+        XCTAssertNoThrow(try inputParser.parse(input: inputString))
+    }
 
     static var allTests = [
         ("testEmptyInputThrowsError", testEmptyInputThrowsError),
@@ -82,5 +92,6 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
         ("testSingleStaticEffectWithRedColorForTwoKeys", testSingleStaticEffectWithRedColorForTwoKeys),
         ("testSingleStaticEffectWithRedColorForAllKeys", testSingleStaticEffectWithRedColorForAllKeys),
         ("testSingleWaveEffectWithRedColor", testSingleWaveEffectWithRedColor),
+        ("testSingleWaveEffectWithBlueRedGreenColors", testSingleWaveEffectWithBlueRedGreenColors),
     ]
 }
