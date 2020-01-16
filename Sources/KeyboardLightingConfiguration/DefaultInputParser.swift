@@ -13,6 +13,13 @@ public class DefaultInputParser {
         case Wave
         case Disco
     }
+    
+    enum Color: String, CaseIterable {
+        case Red
+        case Green
+        case Blue
+        case Yellow
+    }
 }
 
 extension DefaultInputParser: InputParser {
@@ -21,6 +28,7 @@ extension DefaultInputParser: InputParser {
             throw InputParsingError(kind: .EmptyInput, message: nil)
         }
         let effects = Effect.allCases.map { return $0.rawValue.lowercased() }.joined(separator: "|")
+        let colors = Color.allCases.map { return $0.rawValue.lowercased() }.joined(separator: "|")
         let pattern = #"""
         (?xm)
         ^(?<key>
@@ -28,7 +36,7 @@ extension DefaultInputParser: InputParser {
         (?<type>
             (?:\#(effects)))\n
         (?<color>
-            (?:(?:red|green|blue|yellow)(?-x:$|, +))+)
+            (?:(?:\#(colors))(?-x:$|, +))+)
         """#
         let regex = try NSRegularExpression(pattern: pattern, options: [])
         let range = NSRange(input.startIndex..<input.endIndex, in: input)
