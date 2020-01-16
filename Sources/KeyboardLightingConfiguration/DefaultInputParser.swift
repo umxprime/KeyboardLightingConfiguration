@@ -8,6 +8,12 @@
 import Foundation
 
 public class DefaultInputParser {
+    enum Field : String, CaseIterable {
+        case Keys
+        case Effect
+        case Colors
+    }
+    
     enum Effect : String, CaseIterable {
         case Static
         case Wave
@@ -39,11 +45,11 @@ extension DefaultInputParser: InputParser {
         let colors = Color.allCases.map { return $0.rawValue.lowercased() }.joined(separator: "|")
         let pattern = #"""
         (?xm)
-        ^(?<\#(InputParsingResult.Field.Keys.rawValue)>
+        ^(?<\#(Field.Keys.rawValue)>
             (?:[a-z](?-x:$|, *))+)\n
-        (?<\#(InputParsingResult.Field.Effect.rawValue)>
+        (?<\#(Field.Effect.rawValue)>
             (?:\#(effects)))\n
-        (?<\#(InputParsingResult.Field.Colors.rawValue)>
+        (?<\#(Field.Colors.rawValue)>
             (?:(?:\#(colors))(?-x:$|, +))+$)
         """#
         let regex = try NSRegularExpression(pattern: pattern, options: [])
@@ -53,44 +59,47 @@ extension DefaultInputParser: InputParser {
             throw InputParsingError(kind: .NoValidEntryFound, message: nil)
         }
         try matches.forEach { (result) in
-            var entry = InputParsingResult.Entry()
-            for component in InputParsingResult.Field.allCases {
-                let componentRange = result.range(withName: component.rawValue)
-                if componentRange.location == NSNotFound {
+            var fields = [Field:String]()
+            for field in Field.allCases {
+                let fieldRange = result.range(withName: field.rawValue)
+                if fieldRange.location == NSNotFound {
                     continue
                 }
-                let inputStartIndex = input.index(input.startIndex, offsetBy: componentRange.lowerBound)
-                let inputEndIndex = input.index(input.startIndex, offsetBy: componentRange.upperBound)
+                let inputStartIndex = input.index(input.startIndex, offsetBy: fieldRange.lowerBound)
+                let inputEndIndex = input.index(input.startIndex, offsetBy: fieldRange.upperBound)
                 let substring = input[inputStartIndex..<inputEndIndex]
-                entry[component] = String(substring)
+                fields[field] = String(substring)
             }
-            guard entry[InputParsingResult.Field.Keys] != nil else {
+            guard let rawKeys = fields[.Keys] else {
                 throw InputParsingError(kind: .Undefined, message: nil)
             }
-            guard let rawEffectType = entry[InputParsingResult.Field.Effect] else {
+            guard let rawEffect = fields[.Effect] else {
                 throw InputParsingError(kind: .Undefined, message: nil)
             }
-            guard let effectType = Effect(rawValue: rawEffectType.prefix(1).capitalized + rawEffectType.dropFirst()) else {
-                throw InputParsingError(kind: .Undefined, message: "INVALID: Invalid effect \(rawEffectType)")
+            guard let effect = Effect(rawValue: rawEffect.prefix(1).capitalized + rawEffect.dropFirst()) else {
+                throw InputParsingError(kind: .Undefined, message: "INVALID: Invalid effect \(rawEffect)")
             }
-            guard let color = entry[InputParsingResult.Field.Colors] else {
+            guard let rawColors = fields[.Colors] else {
                 throw InputParsingError(kind: .Undefined, message: nil)
             }
             
-            switch effectType {
+            switch effect {
             case .Static:
-                if color.split(separator: ",").count > 1 {
+                if rawColors.split(separator: ",").count > 1 {
                     throw InputParsingError(kind: .InvalidColorCount, message: "INVALID: Static effects are single color only")
                 }
             case .Disco:
-                if color.split(separator: ",").count != 3 {
+                if rawColors.split(separator: ",").count != 3 {
                     throw InputParsingError(kind: .InvalidColorCount, message: "INVALID: Disco effects are three color only")
                 }
             case .Wave:
                 break
             }
+            let entry = InputParsingResult.Entry(keys: rawKeys, effect: rawEffect, colors: rawColors)
             entries.append(entry)
         }
+        let keyboardConfiguration = factory.createKeyboardConfiguration()
+        keyboardConfiguration.from(entries: entries)
         return InputParsingResult(entries: entries, keyboardConfiguration: factory.createKeyboardConfiguration())
     }
 }

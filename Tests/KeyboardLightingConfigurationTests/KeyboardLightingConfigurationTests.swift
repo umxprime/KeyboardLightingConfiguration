@@ -142,6 +142,25 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
         }
     }
     
+    func testSingleEntryParsingResultMatch() {
+        let inputString = """
+        a, b, c, d
+        static
+        green
+        """
+        let entryToMatch = InputParsingResult.Entry(keys: "a, b, c, d", effect: "static", colors: "green")
+        do {
+            let result = try inputParser.parse(input: inputString)
+            guard let entry = result.entries.first else {
+                XCTFail()
+                return
+            }
+            XCTAssertEqual(entry, entryToMatch)
+        } catch {
+            XCTFail()
+        }
+    }
+    
     static var allTests = [
         ("testEmptyInputThrowsError", testEmptyInputThrowsError),
         ("testEmptyInputThrowsEmptyInputError", testEmptyInputThrowsEmptyInputError),
@@ -155,5 +174,6 @@ final class KeyboardLightingConfigurationTests: XCTestCase {
         ("testThrowsInvalidStaticEffectColorCountError", testThrowsInvalidStaticEffectColorCountError),
         ("testThrowsInvalidDiscoEffectColorCountError", testThrowsInvalidDiscoEffectColorCountError),
         ("testFourValidEntries", testFourValidEntries),
+        ("testSingleEntryParsingResultMatch", testSingleEntryParsingResultMatch),
     ]
 }

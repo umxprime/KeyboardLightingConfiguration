@@ -8,13 +8,12 @@
 import Foundation
 
 public struct InputParsingResult {
-    enum Field : String, CaseIterable {
-        case Keys
-        case Effect
-        case Colors
+    public struct Entry: Equatable {
+        let keys: String
+        let effect: String
+        let colors: String
     }
-    typealias Entry = [Field:String]
-    typealias Entries = [Entry]
+    public typealias Entries = [Entry]
     let entries:Entries
     let keyboardConfiguration:KeyboardConfiguration
 }
