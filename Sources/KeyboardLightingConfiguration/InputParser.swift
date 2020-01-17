@@ -18,7 +18,7 @@ public struct InputParsingResult {
 }
 
 public struct InputParsingError : Error {
-    public enum ErrorKind {
+    public enum ErrorKind : String {
         case EmptyInput
         case NoValidEntryFound
         case InvalidColorCount
