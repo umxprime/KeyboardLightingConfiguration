@@ -11,5 +11,5 @@ import Foundation
 public typealias OutputEncodingResult = String
 
 public protocol OutputEncoder {
-    func encode(configuration: KeyboardConfiguration) throws -> OutputEncodingResult
+    func encode(configuration: KeyboardConfiguration) -> OutputEncodingResult
 }

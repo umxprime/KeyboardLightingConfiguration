@@ -18,6 +18,6 @@ public struct KeyConfiguration: Equatable {
 }
 
 public protocol KeyboardConfiguration {
-    var keyConfigurations: [String: KeyConfiguration] {get}
+    var keyConfigurations: [String: KeyConfiguration] {get set}
     func from(entries: InputParsingResult.Entries)
 }
