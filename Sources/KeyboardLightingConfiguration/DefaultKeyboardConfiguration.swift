@@ -18,7 +18,19 @@ extension DefaultKeyboardConfiguration: KeyboardConfiguration {
         }
         keyConfigurations.removeAll()
         entries.forEach { (entry) in
-            
+            let colorsList = entry.colors.split(separator: ",")
+            let colors = colorsList.map { (color) -> KeyConfiguration.Color in
+                let rawValue = color.prefix(1).capitalized + color.dropFirst()
+                return KeyConfiguration.Color(rawValue: rawValue) ?? .Unknown
+            }
+            entry.keys.split(separator: ",").forEach { (key) in
+                let rawValue = entry.effect.prefix(1).capitalized + entry.effect.dropFirst()
+                guard let effect = KeyConfiguration.Effect(rawValue: rawValue) else {
+                    return
+                }
+                let keyConfiguration = KeyConfiguration(key: String(key), effect: effect, colors: colors)
+                keyConfigurations[String(key)] = keyConfiguration
+            }
         }
     }
 }
