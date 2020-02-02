@@ -7,20 +7,22 @@
 
 import Foundation
 
-class DefaultFactory {
-    
+public class DefaultFactory {
+    public init() {
+        
+    }
 }
 
 extension DefaultFactory: Factory {
-    func createInputParser() -> InputParser {
+    public func createInputParser() -> InputParser {
         return DefaultInputParser()
     }
     
-    func createKeyboardConfiguration() -> KeyboardConfiguration {
+    public func createKeyboardConfiguration() -> KeyboardConfiguration {
         return DefaultKeyboardConfiguration()
     }
     
-    func createOutputEncoder() -> OutputEncoder {
+    public func createOutputEncoder() -> OutputEncoder {
         return DefaultOutputEncoder()
     }
     

@@ -14,19 +14,19 @@ public struct InputParsingResult {
         let colors: String
     }
     public typealias Entries = [Entry]
-    let entries:Entries
+    public let entries:Entries
 }
 
 public struct InputParsingError : Error {
-    enum ErrorKind {
+    public enum ErrorKind {
         case EmptyInput
         case NoValidEntryFound
         case InvalidColorCount
         case Undefined
     }
     
-    let kind:ErrorKind
-    let message:String?
+    public let kind:ErrorKind
+    public let message:String?
 }
 
 public protocol InputParser {
