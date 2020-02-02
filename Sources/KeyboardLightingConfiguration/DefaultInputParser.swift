@@ -21,6 +21,12 @@ public class DefaultInputParser {
         case Yellow
         case Orange
     }
+    
+    let factory: Factory
+    
+    public init(factory: Factory) {
+        self.factory = factory
+    }
 }
 
 extension DefaultInputParser: InputParser {
